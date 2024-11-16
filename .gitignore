@@ -1,0 +1,19 @@
+# Node modules (si vous utilisez Node.js)
+node_modules/
+
+# Fichiers de production
+/dist/
+/build/
+
+# IDE
+.vscode/
+.idea/
+
+# Système
+.DS_Store
+
+# Ignorer le fichier .env
+.env
+
+# Ignorer le dossier vendor
+/vendor/
