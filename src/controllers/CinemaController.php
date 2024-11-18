@@ -132,51 +132,63 @@ class CinemaController {
         // Validation du nom
         if (empty($data['name'])) {
             $errors[] = 'Le nom du cinéma est requis.';
+        } elseif (strlen($data['name']) > 50) {
+            $errors[] = 'Le nom du cinéma ne peut pas dépasser 50 caractères.';
         }
 
         // Validation de la ville
         if (empty($data['city'])) {
             $errors[] = 'La ville est requise.';
+        } elseif (strlen($data['city']) > 30) {
+            $errors[] = 'Le nom de la ville ne peut pas dépasser 30 caractères.';
         }
 
         // Validation du pays
         if (empty($data['country'])) {
             $errors[] = 'Le pays est requis.';
+        } elseif (strlen($data['country']) > 30) {
+            $errors[] = 'Le nom du pays ne peut pas dépasser 30 caractères.';
         }
 
         // Validation de l'adresse
         if (empty($data['address'])) {
             $errors[] = 'L\'adresse est requise.';
+        } elseif (strlen($data['address']) > 100) {
+            $errors[] = 'L\'adresse ne peut pas dépasser 100 caractères.';
         }
 
-        // Validation du code postal (optionnel mais on peut ajouter une vérification de format)
+        // Validation du code postal
         if (empty($data['postalCode'])) {
             $errors[] = 'Le code postal est requis.';
-        } elseif (!preg_match('/^\d{5}$/', $data['postalCode'])) {
-            // Vérifie que le code postal contient 5 chiffres (ajuste selon ton pays)
-            $errors[] = 'Le code postal doit être constitué de 5 chiffres.';
+        } elseif (strlen($data['postalCode']) > 10) {
+            $errors[] = 'Le code postal ne peut pas dépasser 10 caractères.';
         }
 
-        // Validation du numéro de téléphone (optionnel mais on peut vérifier un format standard)
+        // Validation du numéro de téléphone
         if (empty($data['phone'])) {
             $errors[] = 'Le numéro de téléphone est requis.';
+        } elseif (strlen($data['phone']) > 20) {
+            $errors[] = 'Le numéro de téléphone ne peut pas dépasser 20 caractères.';
         } elseif (!preg_match('/^\+?[0-9]{10,15}$/', $data['phone'])) {
-            // Vérifie un format international de numéro de téléphone
             $errors[] = 'Le numéro de téléphone n\'est pas valide.';
         }
 
-        // Validation des horaires (si requis)
+        // Validation des horaires
         if (empty($data['hours'])) {
             $errors[] = 'Les horaires d\'ouverture sont requis.';
+        } elseif (strlen($data['hours']) > 30) {
+            $errors[] = 'Les horaires d\'ouverture ne peuvent pas dépasser 30 caractères.';
         }
 
-        // Validation de l'email (s'assurer que c'est un email valide)
+        // Validation de l'email
         if (empty($data['email'])) {
             $errors[] = 'L\'email est requis.';
         } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
             $errors[] = 'L\'email n\'est pas valide.';
+        } elseif (strlen($data['email']) > 100) {
+            $errors[] = 'L\'email ne peut pas dépasser 100 caractères.';
         }
-
+        
         return $errors;
     }
 }
