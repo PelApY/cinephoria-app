@@ -12,6 +12,12 @@ class CinemaController {
         include __DIR__ . '/../../templates/home.php';  // Afficher la liste des cinémas dans la vue
     }
 
+    // Liste tous les cinémas pour Admin
+    public function indexAdmin() {
+        $cinemas = Cinema::readAll();  // Appel pour récupérer tous les cinémas
+        include __DIR__ . '/../../templates/cinema_list.php';  // Afficher la liste des cinémas dans la vue
+    }
+
     // Affiche les détails d'un cinéma par son ID
     public function show($id) {
         $cinema = Cinema::find($id);  // Appel au modèle pour récupérer un cinéma par son ID
@@ -52,7 +58,7 @@ class CinemaController {
             $cinema->create();  // Appel à la méthode de création
 
             // Rediriger vers la liste des cinémas après l'ajout
-            header('Location: /index.php?controller=cinema&action=index');
+            header('Location: /index.php?controller=cinema&action=indexAdmin');
             exit();
         } else {
             // Si ce n'est pas un POST, afficher le formulaire de création
@@ -104,7 +110,7 @@ class CinemaController {
             $cinema->update();  // Appel à la méthode de mise à jour
 
             // Rediriger vers la liste des cinémas après la mise à jour
-            header('Location: /index.php?controller=cinema&action=index');
+            header('Location: /index.php?controller=cinema&action=indexAdmin');
             exit();
         } else {
             // Si ce n'est pas un POST, afficher le formulaire avec les informations actuelles du cinéma
@@ -118,7 +124,7 @@ class CinemaController {
 
         if ($cinema) {
             Cinema::delete($id);  // Appel à la méthode pour supprimer le cinéma
-            header('Location: /index.php?controller=cinema&action=index');  // Rediriger après suppression
+            header('Location: /index.php?controller=cinema&action=indexAdmin');  // Rediriger après suppression
             exit();
         } else {
             echo "Cinéma non trouvé.";
@@ -188,7 +194,7 @@ class CinemaController {
         } elseif (strlen($data['email']) > 100) {
             $errors[] = 'L\'email ne peut pas dépasser 100 caractères.';
         }
-        
+
         return $errors;
     }
 }

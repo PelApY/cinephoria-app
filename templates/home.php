@@ -11,6 +11,9 @@
     <main>
         <!-- Contenu principal du site -->
 
+        <!-- Page d'administration -->
+        <a href="index.php?controller=cinema&action=indexAdmin" class="btn btn-secondary">Gérer les Cinémas (Admin)</a>
+
         <!-- Footer -->
         <footer class="text-center text-lg-start bg-body-tertiary text-muted shadow">
             <section id="cinemaInfos">
