@@ -1,6 +1,6 @@
 <?php
 
-require_once '/../config/db.php';
+require_once __DIR__ . '/../config/db.php'; // Correction du chemin
 
 class Cinema {
     private $cinemaId;
@@ -51,21 +51,26 @@ class Cinema {
     // CRUD Methods
 
     // Create Cinema
-    public static function create($name, $city, $country, $address, $postalCode, $phone, $hours, $email) {
+    public function create() {
         global $pdo;
-        $query = "INSERT INTO Cinema (cinema_nom, cinema_ville, cinema_pays, cinema_adresse, cinema_cp, cinema_numero, cinema_horaires, cinema_email) 
-                  VALUES (:name, :city, :country, :address, :postalCode, :phone, :hours, :email)";
-        $stmt = $pdo->prepare($query);
-        $stmt->execute([
-            'name' => $name,
-            'city' => $city,
-            'country' => $country,
-            'address' => $address,
-            'postalCode' => $postalCode,
-            'phone' => $phone,
-            'hours' => $hours,
-            'email' => $email
-        ]);
+        try {
+            $query = "INSERT INTO Cinema (cinema_nom, cinema_ville, cinema_pays, cinema_adresse, cinema_cp, cinema_numero, cinema_horaires, cinema_email) 
+                      VALUES (:name, :city, :country, :address, :postalCode, :phone, :hours, :email)";
+            $stmt = $pdo->prepare($query);
+            $stmt->execute([
+                ':name' => $this->name,
+                ':city' => $this->city,
+                ':country' => $this->country,
+                ':address' => $this->address,
+                ':postalCode' => $this->postalCode,
+                ':phone' => $this->phone,
+                ':hours' => $this->hours,
+                ':email' => $this->email
+            ]);
+        } catch (PDOException $e) {
+            // Gestion d'erreur en cas de problème avec la base de données
+            die("Error: " . $e->getMessage());
+        }
     }
 
     // Read All Cinemas
@@ -77,23 +82,27 @@ class Cinema {
     }
 
     // Update Cinema
-    public static function update($id, $name, $city, $country, $address, $postalCode, $phone, $hours, $email) {
+    public function update() {
         global $pdo;
-        $query = "UPDATE Cinema SET cinema_nom = :name, cinema_ville = :city, cinema_pays = :country, 
-                  cinema_adresse = :address, cinema_cp = :postalCode, cinema_numero = :phone, 
-                  cinema_horaires = :hours, cinema_email = :email WHERE cinema_id = :id";
-        $stmt = $pdo->prepare($query);
-        $stmt->execute([
-            'id' => $id,
-            'name' => $name,
-            'city' => $city,
-            'country' => $country,
-            'address' => $address,
-            'postalCode' => $postalCode,
-            'phone' => $phone,
-            'hours' => $hours,
-            'email' => $email
-        ]);
+        try {
+            $query = "UPDATE Cinema SET cinema_nom = :name, cinema_ville = :city, cinema_pays = :country, 
+                      cinema_adresse = :address, cinema_cp = :postalCode, cinema_numero = :phone, 
+                      cinema_horaires = :hours, cinema_email = :email WHERE cinema_id = :id";
+            $stmt = $pdo->prepare($query);
+            $stmt->execute([
+                ':id' => $this->cinemaId,
+                ':name' => $this->name,
+                ':city' => $this->city,
+                ':country' => $this->country,
+                ':address' => $this->address,
+                ':postalCode' => $this->postalCode,
+                ':phone' => $this->phone,
+                ':hours' => $this->hours,
+                ':email' => $this->email
+            ]);
+        } catch (PDOException $e) {
+            die("Error: " . $e->getMessage());
+        }
     }
 
     // Find Cinema by ID
@@ -101,15 +110,19 @@ class Cinema {
         global $pdo;
         $query = "SELECT * FROM Cinema WHERE cinema_id = :id";
         $stmt = $pdo->prepare($query);
-        $stmt->execute(['id' => $id]);
+        $stmt->execute([':id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     // Delete Cinema
     public static function delete($id) {
         global $pdo;
-        $query = "DELETE FROM Cinema WHERE cinema_id = :id";
-        $stmt = $pdo->prepare($query);
-        $stmt->execute(['id' => $id]);
+        try {
+            $query = "DELETE FROM Cinema WHERE cinema_id = :id";
+            $stmt = $pdo->prepare($query);
+            $stmt->execute([':id' => $id]);
+        } catch (PDOException $e) {
+            die("Error: " . $e->getMessage());
+        }
     }
 }
