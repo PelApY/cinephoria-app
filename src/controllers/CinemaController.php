@@ -28,7 +28,6 @@ class CinemaController {
         }
     }
 
-    // Crée un nouveau cinéma
     public function create() {
         // Vérifier si les données sont envoyées via POST
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -49,7 +48,11 @@ class CinemaController {
 
             // Si il y a des erreurs, afficher les erreurs et arrêter l'exécution
             if (!empty($errors)) {
-                include __DIR__ . '/../../templates/cinema_create.php';  // Renvoyer le formulaire avec les erreurs
+                // Retourner les erreurs à la vue
+                echo json_encode([
+                    'success' => false,
+                    'message' => $errors
+                ]);
                 return;
             }
 
@@ -57,11 +60,14 @@ class CinemaController {
             $cinema = new Cinema(null, $data['name'], $data['city'], $data['country'], $data['address'], $data['postalCode'], $data['phone'], $data['hours'], $data['email']);
             $cinema->create();  // Appel à la méthode de création
 
-            // Rediriger vers la liste des cinémas après l'ajout
-            header('Location: /index.php?controller=cinema&action=indexAdmin');
+            // Rediriger vers la liste des cinémas après l'ajout (avec une réponse JSON ici)
+            echo json_encode([
+                'success' => true,
+                'message' => 'Le cinéma a été ajouté avec succès!'
+            ]);
             exit();
         } else {
-            // Si ce n'est pas un POST, afficher le formulaire de création
+            // Si ce n'est pas un POST, afficher le formulaire de création (rarement utilisé avec modal)
             include __DIR__ . '/../../templates/cinema_create.php';
         }
     }
