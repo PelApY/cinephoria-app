@@ -26,37 +26,37 @@ function connectMysqlLocal($env) {
             $env['DB_PASSWORD_LOCAL']
         );
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // Config des erreurs
-        echo "Connexion réussie à MySQL local !<br>"; // Désactivé pour la production
+        // echo "Connexion réussie à MySQL local !<br>"; // Désactivé pour la production
 
         // Vérification de la base de données
         $base = $pdo->query("SELECT DATABASE()")->fetchColumn();
-        echo "Base de données utilisée : $base<br>"; // Désactivé pour la production
+        // echo "Base de données utilisée : $base<br>"; // Désactivé pour la production
 
         // Récupérer les 5 premiers cinémas
         $query = $pdo->query("SELECT * FROM Cinema LIMIT 5");
         $cinemaData = $query->fetchAll(PDO::FETCH_ASSOC);
 
         if ($cinemaData) {
-            echo '<h4>Liste des cinémas (MySQL local) :</h4>'; // Désactivé pour la production
-            echo '<table border="1"><tr><th>Nom</th><th>Ville</th><th>Pays</th><th>Adresse</th><th>Email</th></tr>'; // Désactivé pour la production
+            // echo '<h4>Liste des cinémas (MySQL local) :</h4>'; // Désactivé pour la production
+            // echo '<table border="1"><tr><th>Nom</th><th>Ville</th><th>Pays</th><th>Adresse</th><th>Email</th></tr>'; // Désactivé pour la production
             foreach ($cinemaData as $cinema) {
                 echo '<tr>';
-                echo '<td>' . htmlspecialchars($cinema['cinema_nom']) . '</td>'; // Désactivé pour la production
-                echo '<td>' . htmlspecialchars($cinema['cinema_ville']) . '</td>'; // Désactivé pour la production
-                echo '<td>' . htmlspecialchars($cinema['cinema_pays']) . '</td>'; // Désactivé pour la production
-                echo '<td>' . htmlspecialchars($cinema['cinema_adresse']) . '</td>'; // Désactivé pour la production
-                echo '<td>' . htmlspecialchars($cinema['cinema_email']) . '</td>'; // Désactivé pour la production
+                // echo '<td>' . htmlspecialchars($cinema['cinema_nom']) . '</td>'; // Désactivé pour la production
+                // echo '<td>' . htmlspecialchars($cinema['cinema_ville']) . '</td>'; // Désactivé pour la production
+                // echo '<td>' . htmlspecialchars($cinema['cinema_pays']) . '</td>'; // Désactivé pour la production
+                // echo '<td>' . htmlspecialchars($cinema['cinema_adresse']) . '</td>'; // Désactivé pour la production
+                // echo '<td>' . htmlspecialchars($cinema['cinema_email']) . '</td>'; // Désactivé pour la production
                 echo '</tr>';
             }
-            echo '</table><br>'; // Désactivé pour la production
+            // echo '</table><br>'; // Désactivé pour la production
         } else {
-            echo "Aucun cinéma trouvé en MySQL local !<br>"; // Désactivé pour la production
+            // echo "Aucun cinéma trouvé en MySQL local !<br>"; // Désactivé pour la production
         }
 
         return $pdo;
         
     } catch (PDOException $e) {
-        echo "Échec de la connexion MySQL local : " . $e->getMessage() . "<br>"; // Désactivé pour la production
+        // echo "Échec de la connexion MySQL local : " . $e->getMessage() . "<br>"; // Désactivé pour la production
         return false;
     }
 }
@@ -64,39 +64,39 @@ function connectMysqlLocal($env) {
 // Fonction de connexion MySQL distante (AlwaysData)
 function connectMysqlRemote($env) {
     try {
-        echo 'Connexion MySQL distante : Tentative de connexion...<br>'; // Désactivé pour la production
+        // echo 'Connexion MySQL distante : Tentative de connexion...<br>'; // Désactivé pour la production
         $pdo = new PDO(
             "mysql:host=" . $env['DB_HOST_REMOTE'] . ";dbname=" . $env['DB_NAME_REMOTE'],
             $env['DB_USER_REMOTE'],
             $env['DB_PASSWORD_REMOTE']
         );
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        echo "Connexion réussie à MySQL distant !<br>"; // Désactivé pour la production
+        // echo "Connexion réussie à MySQL distant !<br>"; // Désactivé pour la production
 
         // Récupérer les données de la table Cinema
         $query = $pdo->query("SELECT * FROM Cinema");
         $cinemaData = $query->fetchAll(PDO::FETCH_ASSOC);
 
         if ($cinemaData) {
-            echo '<h4>Liste des cinémas (MySQL distant) :</h4>'; // Désactivé pour la production
-            echo '<table border="1"><tr><th>Nom</th><th>Ville</th><th>Pays</th><th>Adresse</th><th>Email</th></tr>'; // Désactivé pour la production
+            // echo '<h4>Liste des cinémas (MySQL distant) :</h4>'; // Désactivé pour la production
+            // echo '<table border="1"><tr><th>Nom</th><th>Ville</th><th>Pays</th><th>Adresse</th><th>Email</th></tr>'; // Désactivé pour la production
             foreach ($cinemaData as $cinema) {
                 echo '<tr>';
-                echo '<td>' . htmlspecialchars($cinema['cinema_nom']) . '</td>'; // Désactivé pour la production
-                echo '<td>' . htmlspecialchars($cinema['cinema_ville']) . '</td>'; // Désactivé pour la production
-                echo '<td>' . htmlspecialchars($cinema['cinema_pays']) . '</td>'; // Désactivé pour la production
-                echo '<td>' . htmlspecialchars($cinema['cinema_adresse']) . '</td>'; // Désactivé pour la production
-                echo '<td>' . htmlspecialchars($cinema['cinema_email']) . '</td>'; // Désactivé pour la production
+                // echo '<td>' . htmlspecialchars($cinema['cinema_nom']) . '</td>'; // Désactivé pour la production
+                // echo '<td>' . htmlspecialchars($cinema['cinema_ville']) . '</td>'; // Désactivé pour la production
+                // echo '<td>' . htmlspecialchars($cinema['cinema_pays']) . '</td>'; // Désactivé pour la production
+                // echo '<td>' . htmlspecialchars($cinema['cinema_adresse']) . '</td>'; // Désactivé pour la production
+                // echo '<td>' . htmlspecialchars($cinema['cinema_email']) . '</td>'; // Désactivé pour la production
                 echo '</tr>';
             }
-            echo '</table><br>'; // Désactivé pour la production
+            // echo '</table><br>'; // Désactivé pour la production
         } else {
-            echo "Aucun cinéma trouvé en MySQL distant !<br>"; // Désactivé pour la production
+            // echo "Aucun cinéma trouvé en MySQL distant !<br>"; // Désactivé pour la production
         }
 
         return $pdo;
     } catch (PDOException $e) {
-        echo "Échec de la connexion MySQL distant : " . $e->getMessage() . "<br>"; // Désactivé pour la production
+        // echo "Échec de la connexion MySQL distant : " . $e->getMessage() . "<br>"; // Désactivé pour la production
         return false;
     }
 }
@@ -104,11 +104,11 @@ function connectMysqlRemote($env) {
 // Connexion MongoDB locale
 function connectMongoLocal($env) {
     try {
-        echo 'Connexion MongoDB locale : Tentative de connexion...<br>'; // Désactivé pour la production
+        // echo 'Connexion MongoDB locale : Tentative de connexion...<br>'; // Désactivé pour la production
         $mongoDbUri = $env['MONGO_DB_URI_LOCAL'];
         // $mongoDb = new Client($mongoDbUri);
         $mongoDb = new Manager($mongoDbUri);
-        echo "Connexion réussie à MongoDB local !<br>"; // Désactivé pour la production
+        // echo "Connexion réussie à MongoDB local !<br>"; // Désactivé pour la production
 
         // Récupérer les noms des utilisateurs dans la collection "users"
         $filter = []; // Pas de filtre, on récupère tous les utilisateurs
@@ -121,21 +121,21 @@ function connectMongoLocal($env) {
 
         $userNames = iterator_to_array($cursor);
         if ($userNames) {
-            echo '<h4>Liste des noms des utilisateurs (MongoDB local) :</h4>'; // Désactivé pour la production
-            echo '<table border="1"><tr><th>Name</th></tr>'; // Désactivé pour la production
+            // echo '<h4>Liste des noms des utilisateurs (MongoDB local) :</h4>'; // Désactivé pour la production
+            // echo '<table border="1"><tr><th>Name</th></tr>'; // Désactivé pour la production
             foreach ($userNames as $user) {
                 echo '<tr>';
-                echo '<td>' . htmlspecialchars($user->name) . '</td>'; // Désactivé pour la production
+                // echo '<td>' . htmlspecialchars($user->name) . '</td>'; // Désactivé pour la production
                 echo '</tr>';
             }
-            echo '</table><br>'; // Désactivé pour la production
+            // echo '</table><br>'; // Désactivé pour la production
         } else {
-            echo "Aucun utilisateur trouvé en MongoDB local !<br>"; // Désactivé pour la production
+            // echo "Aucun utilisateur trouvé en MongoDB local !<br>"; // Désactivé pour la production
         }
 
         return $mongoDb;
     } catch (Exception $e) {
-        echo "Échec de la connexion MongoDB local : " . $e->getMessage() . "<br>"; // Désactivé pour la production
+        // echo "Échec de la connexion MongoDB local : " . $e->getMessage() . "<br>"; // Désactivé pour la production
         return false;
     }
 }
@@ -143,10 +143,10 @@ function connectMongoLocal($env) {
 // Fonction de connexion MongoDB distante (MongoDB Atlas)
 function connectMongoRemote($env) {
     try {
-        echo 'Connexion MongoDB distante : Tentative de connexion...<br>'; // Désactivé pour la production
+        // echo 'Connexion MongoDB distante : Tentative de connexion...<br>'; // Désactivé pour la production
         $mongoDbUri = $env['MONGO_DB_URI_PROD'];
         $mongoDb = new Manager($mongoDbUri);
-        echo "Connexion réussie à MongoDB distant !<br>"; // Désactivé pour la production
+        // echo "Connexion réussie à MongoDB distant !<br>"; // Désactivé pour la production
 
         // Récupérer les noms des utilisateurs dans la collection "users"
         $filter = []; // Pas de filtre, on récupère tous les utilisateurs
@@ -159,21 +159,21 @@ function connectMongoRemote($env) {
 
         $userNames = iterator_to_array($cursor);
         if ($userNames) {
-            echo '<h4>Liste des noms des utilisateurs (MongoDB distant) :</h4>'; // Désactivé pour la production
-            echo '<table border="1"><tr><th>Name</th></tr>'; // Désactivé pour la production
+            // echo '<h4>Liste des noms des utilisateurs (MongoDB distant) :</h4>'; // Désactivé pour la production
+            // echo '<table border="1"><tr><th>Name</th></tr>'; // Désactivé pour la production
             foreach ($userNames as $user) {
                 echo '<tr>';
-                echo '<td>' . htmlspecialchars($user->name) . '</td>'; // Désactivé pour la production
+                // echo '<td>' . htmlspecialchars($user->name) . '</td>'; // Désactivé pour la production
                 echo '</tr>';
             }
-            echo '</table><br>'; // Désactivé pour la production
+            // echo '</table><br>'; // Désactivé pour la production
         } else {
-            echo "Aucun utilisateur trouvé en MongoDB distant !<br>"; // Désactivé pour la production
+            // echo "Aucun utilisateur trouvé en MongoDB distant !<br>"; // Désactivé pour la production
         }
 
         return $mongoDb;
     } catch (Exception $e) {
-        echo "Échec de la connexion MongoDB distant : " . $e->getMessage() . "<br>"; // Désactivé pour la production
+        // echo "Échec de la connexion MongoDB distant : " . $e->getMessage() . "<br>"; // Désactivé pour la production
         return false;
     }
 }
