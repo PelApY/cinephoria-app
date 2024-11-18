@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../config/db.php'; // Correction du chemin
+require_once __DIR__ . '/../config/db.php';
 
 class Cinema {
     private $cinemaId;
@@ -76,9 +76,13 @@ class Cinema {
     // Read All Cinemas
     public static function readAll() {
         global $pdo;
-        $query = "SELECT * FROM Cinema";
-        $stmt = $pdo->query($query);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        try {
+            $query = "SELECT * FROM Cinema";
+            $stmt = $pdo->query($query);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            die("Error: " . $e->getMessage());
+        }
     }
 
     // Update Cinema
@@ -108,10 +112,14 @@ class Cinema {
     // Find Cinema by ID
     public static function find($id) {
         global $pdo;
-        $query = "SELECT * FROM Cinema WHERE cinema_id = :id";
-        $stmt = $pdo->prepare($query);
-        $stmt->execute([':id' => $id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        try {
+            $query = "SELECT * FROM Cinema WHERE cinema_id = :id";
+            $stmt = $pdo->prepare($query);
+            $stmt->execute([':id' => $id]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            die("Error: " . $e->getMessage());
+        }
     }
 
     // Delete Cinema
