@@ -18,6 +18,7 @@ $db = [];
 
 // Connexion MySQL locale
 function connectMysqlLocal($env) {
+    global $pdo; // Utiliser la variable globale $pdo
     try {
         // echo 'Connexion MySQL locale : Tentative de connexion...<br>'; // Désactivé pour la production
         $pdo = new PDO(

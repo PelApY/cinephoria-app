@@ -1,20 +1,9 @@
-<?php
-// Inclure le contrôleur des cinémas
-require_once '/../src/controllers/cinemaController.php';
-
-// Créer une instance du contrôleur
-$cinemaController = new CinemaController();
-
-// Récupérer tous les cinémas
-$cinemas = $cinemaController->getAllCinemas();
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cinéphoria - Footer</title>
+    <title>Cinéphoria - Landing Page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-H6qaep/OVpHQC2Xa2yaoaE4UNXczKncoUp9b2OxFYr2M5swe1KxJl50MjRHpbZVb" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
@@ -36,12 +25,14 @@ $cinemas = $cinemaController->getAllCinemas();
                         <!-- Affichage dynamique des cinémas -->
                         <?php foreach ($cinemas as $cinema): ?>
                         <div class="col-md-4 col-lg-3 col-xl-3 mx-0 mt-4">
-                            <h6 class="text-uppercase fw-bold mb-2"><?= htmlspecialchars($cinema['name']) ?></h6>
+                            <h3 class="text-uppercase fw-bold mb-2"><?= htmlspecialchars($cinema->getName()) ?></h3>
                             <ul class="list-unstyled d-flex flex-column">
-                                <li><i class="fas fa-home me-3"></i><?= htmlspecialchars($cinema['address']) ?></li>
-                                <li><i class="fas fa-envelope me-3"></i><a href="mailto:<?= htmlspecialchars($cinema['email']) ?>"><?= htmlspecialchars($cinema['email']) ?></a></li>
-                                <li><i class="fas fa-phone me-3"></i><?= htmlspecialchars($cinema['phone']) ?></li>
-                                <li><i class="fas fa-clock me-3"></i>Horaires : <?= htmlspecialchars($cinema['hours']) ?></li>
+                                <li><i class="fas fa-home me-3"></i><?= htmlspecialchars($cinema->getAddress()) ?></li>
+                                <li><i class="fas fa-envelope me-3"></i><a href="mailto:<?= htmlspecialchars($cinema->getEmail()) ?>"><?= htmlspecialchars($cinema->getEmail()) ?></a></li>
+                                <li><i class="fas fa-phone me-3"></i><?= htmlspecialchars($cinema->getPhone()) ?></li>
+                                <li><i class="fas fa-clock me-3"></i>Horaires : <?= htmlspecialchars($cinema->getHours()) ?></li>
+                                <li><i class="fas fa-city me-3"></i><?= htmlspecialchars($cinema->getCity()) ?>, <?= htmlspecialchars($cinema->getCountry()) ?></li>
+                                <li><i class="fas fa-map-marker-alt me-3"></i><?= htmlspecialchars($cinema->getPostalCode()) ?></li>
                             </ul>
                         </div>
                         <?php endforeach; ?>

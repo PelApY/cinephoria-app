@@ -9,14 +9,15 @@ class CinemaController {
     // Liste tous les cinémas
     public function index() {
         $cinemas = Cinema::readAll();  // Appel pour récupérer tous les cinémas
-        include __DIR__ . '/../templates/cinemas_list.php';  // Afficher la liste des cinémas dans la vue
+        // include __DIR__ . '/../../templates/cinema_list.php';  // Afficher la liste des cinémas dans la vue
+        include __DIR__ . '/../../templates/home.php';  // Afficher la liste des cinémas dans le footer
     }
 
     // Affiche les détails d'un cinéma par son ID
     public function show($id) {
         $cinema = Cinema::find($id);  // Appel au modèle pour récupérer un cinéma par son ID
         if ($cinema) {
-            include __DIR__ . '/../templates/cinema_detail.php';  // Afficher les détails du cinéma
+            include __DIR__ . '/../../templates/cinema_detail.php';  // Afficher les détails du cinéma
         } else {
             echo "Cinéma non trouvé.";
         }
@@ -45,7 +46,7 @@ class CinemaController {
             exit();
         } else {
             // Si ce n'est pas un POST, afficher le formulaire de création
-            include __DIR__ . '/../templates/cinema_create.php';  // Formulaire de création
+            include __DIR__ . '/../../templates/cinema_create.php';  // Formulaire de création
         }
     }
 
@@ -86,7 +87,7 @@ class CinemaController {
             exit();
         } else {
             // Si ce n'est pas un POST, afficher le formulaire avec les informations actuelles du cinéma
-            include __DIR__ . '/../templates/cinema_update.php';  // Formulaire de mise à jour
+            include __DIR__ . '/../../templates/cinema_update.php';  // Formulaire de mise à jour
         }
     }
 
@@ -101,10 +102,5 @@ class CinemaController {
         } else {
             echo "Cinéma non trouvé.";
         }
-    }
-
-    // Retourne tous les cinémas pour le footer
-    public function getAllCinemas() {
-        return Cinema::readAll();  // Appel au modèle pour récupérer tous les cinémas
     }
 }

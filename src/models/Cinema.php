@@ -50,6 +50,36 @@ class Cinema {
 
     // CRUD Methods
 
+    public static function readAll() {
+        global $pdo;
+        try {
+            $query = "SELECT * FROM Cinema";
+            $stmt = $pdo->query($query);
+            $cinemas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+            // Créer un tableau d'objets Cinema
+            $cinemaObjects = [];
+            foreach ($cinemas as $cinema) {
+                // Créer un objet Cinema à partir des résultats
+                $cinemaObjects[] = new Cinema(
+                    $cinema['cinema_id'],
+                    $cinema['cinema_nom'],
+                    $cinema['cinema_ville'],
+                    $cinema['cinema_pays'],
+                    $cinema['cinema_adresse'],
+                    $cinema['cinema_cp'],
+                    $cinema['cinema_numero'],
+                    $cinema['cinema_horaires'],
+                    $cinema['cinema_email']
+                );
+            }
+    
+            return $cinemaObjects;  // Retourne un tableau d'objets Cinema
+        } catch (PDOException $e) {
+            die("Error: " . $e->getMessage());
+        }
+    }    
+    
     // Create Cinema
     public function create() {
         global $pdo;
@@ -72,14 +102,15 @@ class Cinema {
             die("Error: " . $e->getMessage());
         }
     }
-
-    // Read All Cinemas
-    public static function readAll() {
+    
+    // Find Cinema by ID
+    public static function find($id) {
         global $pdo;
         try {
-            $query = "SELECT * FROM Cinema";
-            $stmt = $pdo->query($query);
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $query = "SELECT * FROM Cinema WHERE cinema_id = :id";
+            $stmt = $pdo->prepare($query);
+            $stmt->execute([':id' => $id]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             die("Error: " . $e->getMessage());
         }
@@ -104,19 +135,6 @@ class Cinema {
                 ':hours' => $this->hours,
                 ':email' => $this->email
             ]);
-        } catch (PDOException $e) {
-            die("Error: " . $e->getMessage());
-        }
-    }
-
-    // Find Cinema by ID
-    public static function find($id) {
-        global $pdo;
-        try {
-            $query = "SELECT * FROM Cinema WHERE cinema_id = :id";
-            $stmt = $pdo->prepare($query);
-            $stmt->execute([':id' => $id]);
-            return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             die("Error: " . $e->getMessage());
         }
