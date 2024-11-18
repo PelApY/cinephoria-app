@@ -8,7 +8,7 @@ class CinemaController {
 
     // Liste tous les cinémas
     public function index() {
-        $cinemas = Cinema::readAll();  // Appel au modèle pour récupérer tous les cinémas
+        $cinemas = Cinema::readAll();  // Appel pour récupérer tous les cinémas
         include __DIR__ . '/../templates/cinemas_list.php';  // Afficher la liste des cinémas dans la vue
     }
 
@@ -101,5 +101,10 @@ class CinemaController {
         } else {
             echo "Cinéma non trouvé.";
         }
+    }
+
+    // Retourne tous les cinémas pour le footer
+    public function getAllCinemas() {
+        return Cinema::readAll();  // Appel au modèle pour récupérer tous les cinémas
     }
 }
