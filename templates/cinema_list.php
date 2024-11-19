@@ -147,6 +147,69 @@
         </div>
 
 
+        <!-- Modal de modification de cinéma -->
+        <div class="modal fade" id="editCinemaModal" tabindex="-1" aria-labelledby="editCinemaModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg my-5">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editCinemaModalLabel">Modifier un cinéma</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Formulaire pour modifier un cinéma -->
+                        <form id="editCinemaForm">
+                            <input type="hidden" name="id" id="cinema_id" value="<?= $cinema['cinema_id']; ?>" />
+                            <div class="row">
+                                <div class="col-md-6 col-12">
+                                    <label for="name">Nom</label>
+                                    <input type="text" class="form-control" id="name" name="name" value="<?= htmlspecialchars($cinema['cinema_nom']); ?>" required>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <label for="city">Ville</label>
+                                    <input type="text" class="form-control" id="city" name="city" value="<?= htmlspecialchars($cinema['cinema_ville']); ?>" required>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-6 col-12">
+                                    <label for="country">Pays</label>
+                                    <input type="text" class="form-control" id="country" name="country" value="<?= htmlspecialchars($cinema['cinema_pays']); ?>" required>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <label for="address">Adresse</label>
+                                    <input type="text" class="form-control" id="address" name="address" value="<?= htmlspecialchars($cinema['cinema_adresse']); ?>" required>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-6 col-12">
+                                    <label for="postalCode">Code Postal</label>
+                                    <input type="text" class="form-control" id="postalCode" name="postalCode" value="<?= htmlspecialchars($cinema['cinema_cp']); ?>" required>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <label for="phone">Téléphone</label>
+                                    <input type="text" class="form-control" id="phone" name="phone" value="<?= htmlspecialchars($cinema['cinema_numero']); ?>" required>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-6 col-12">
+                                    <label for="hours">Horaires</label>
+                                    <input type="text" class="form-control" id="hours" name="hours" value="<?= htmlspecialchars($cinema['cinema_horaires']); ?>" required>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <label for="email">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email" value="<?= htmlspecialchars($cinema['cinema_email']); ?>" required>
+                                </div>
+                            </div>
+                            <div class="modal-footer mt-4">
+                                <button type="submit" class="btn btn-success btn-sm">Mettre à jour le cinéma</button>
+                                <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Annuler</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <!-- Footer -->
         <footer class="text-center text-lg-start bg-body-tertiary text-muted shadow">
             <section id="cinemaInfos">

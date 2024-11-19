@@ -28,9 +28,9 @@ class CinemaController {
         }
     }
 
-    // Crée un nouveau cinéma
     public function create() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Récupération des données du formulaire
             $data = [
                 'name' => $_POST['name'],
                 'city' => $_POST['city'],
@@ -54,108 +54,130 @@ class CinemaController {
                 return;
             }
     
-            // Créer le cinéma (suivant le modèle)
-            $cinema = new Cinema(null, $data['name'], $data['city'], $data['country'], $data['address'], $data['postalCode'], $data['phone'], $data['hours'], $data['email']);
-            $cinema->create();
+            try {
+                // Connexion à la base de données via le global $pdo
+                global $pdo;
+                // Préparer la requête SQL avec des placeholders pour éviter les injections SQL
+                $query = "INSERT INTO Cinema (cinema_nom, cinema_ville, cinema_pays, cinema_adresse, cinema_cp, cinema_numero, cinema_horaires, cinema_email)
+                          VALUES (:name, :city, :country, :address, :postalCode, :phone, :hours, :email)";
+                // Préparer la requête
+                $stmt = $pdo->prepare($query);
+                // Exécuter la requête en liant les paramètres à partir de l'array $data
+                $stmt->execute([
+                    ':name' => $data['name'],
+                    ':city' => $data['city'],
+                    ':country' => $data['country'],
+                    ':address' => $data['address'],
+                    ':postalCode' => $data['postalCode'],
+                    ':phone' => $data['phone'],
+                    ':hours' => $data['hours'],
+                    ':email' => $data['email']
+                ]);
     
-            // Renvoyer une réponse JSON avec succès
-            echo json_encode([
-                'success' => true,
-                'message' => 'Le cinéma a été ajouté avec succès!'
-            ]);
-            exit();
+                // Renvoyer une réponse JSON avec succès si l'insertion a été effectuée
+                echo json_encode([
+                    'success' => true,
+                    'message' => 'Le cinéma a été ajouté avec succès!'
+                ]);
+                exit();
+
+            } catch (PDOException $e) {
+                // Si une erreur survient lors de l'exécution de la requête, envoyer une erreur en JSON
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Une erreur est survenue: ' . $e->getMessage()
+                ]);
+                exit();
+            }
         }
     }
-    
-    // // Crée un nouveau cinéma
-    // public function create() {
-    //     // Vérifier si les données sont envoyées via POST
-    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    //         // Récupérer les données du formulaire
-    //         $data = [
-    //             'name' => $_POST['name'],
-    //             'city' => $_POST['city'],
-    //             'country' => $_POST['country'],
-    //             'address' => $_POST['address'],
-    //             'postalCode' => $_POST['postalCode'],
-    //             'phone' => $_POST['phone'],
-    //             'hours' => $_POST['hours'],
-    //             'email' => $_POST['email'],
-    //         ];
 
-    //         // Valider les données
-    //         $errors = $this->validateCinemaData($data);
-
-    //         // Si il y a des erreurs, afficher les erreurs et arrêter l'exécution
-    //         if (!empty($errors)) {
-    //             include __DIR__ . '/../../templates/cinema_create.php';  // Renvoyer le formulaire avec les erreurs
-    //             return;
-    //         }
-
-    //         // Si pas d'erreurs, créer le cinéma
-    //         $cinema = new Cinema(null, $data['name'], $data['city'], $data['country'], $data['address'], $data['postalCode'], $data['phone'], $data['hours'], $data['email']);
-    //         $cinema->create();  // Appel à la méthode de création
-
-    //         // Rediriger vers la liste des cinémas après l'ajout
-    //         header('Location: /index.php?controller=cinema&action=indexAdmin');
-    //         exit();
-    //     } else {
-    //         // Si ce n'est pas un POST, afficher le formulaire de création
-    //         include __DIR__ . '/../../templates/cinema_create.php';
-    //     }
-    // }
-
-    // Mettre à jour un cinéma
     public function update($id) {
-        // Récupérer les données existantes du cinéma pour pré-remplir le formulaire
-        $cinema = Cinema::find($id);
-
-        if (!$cinema) {
-            echo "Cinéma non trouvé.";
-            return;
-        }
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Récupérer les données du formulaire
-            $data = [
-                'name' => $_POST['name'],
-                'city' => $_POST['city'],
-                'country' => $_POST['country'],
-                'address' => $_POST['address'],
-                'postalCode' => $_POST['postalCode'],
-                'phone' => $_POST['phone'],
-                'hours' => $_POST['hours'],
-                'email' => $_POST['email'],
-            ];
-
-            // Valider les données
-            $errors = $this->validateCinemaData($data);
-
-            // Si il y a des erreurs, afficher les erreurs et arrêter l'exécution
-            if (!empty($errors)) {
-                include __DIR__ . '/../../templates/cinema_update.php';  // Renvoyer le formulaire avec les erreurs
+        try {
+            // Récupérer les données existantes du cinéma pour pré-remplir le formulaire
+            $cinema = Cinema::find($id);  // Utiliser la méthode find pour récupérer les informations du cinéma
+    
+            // Si le cinéma n'existe pas, envoyer un message d'erreur JSON
+            if (!$cinema) {
+                echo json_encode(['success' => false, 'message' => 'Cinéma non trouvé.']);
                 return;
             }
-
-            // Si pas d'erreurs, mettre à jour les informations du cinéma
-            $cinema->setName($data['name']);
-            $cinema->setCity($data['city']);
-            $cinema->setCountry($data['country']);
-            $cinema->setAddress($data['address']);
-            $cinema->setPostalCode($data['postalCode']);
-            $cinema->setPhone($data['phone']);
-            $cinema->setHours($data['hours']);
-            $cinema->setEmail($data['email']);
-            $cinema->update();  // Appel à la méthode de mise à jour
-
-            // Rediriger vers la liste des cinémas après la mise à jour
-            header('Location: /index.php?controller=cinema&action=indexAdmin');
-            exit();
-        } else {
-            // Si ce n'est pas un POST, afficher le formulaire avec les informations actuelles du cinéma
-            include __DIR__ . '/../../templates/cinema_update.php';  // Formulaire de mise à jour
+    
+            // Si la requête est en POST (lorsqu'on soumet le formulaire)
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                // Récupérer les données du formulaire envoyées en AJAX
+                $data = [
+                    'name' => $_POST['name'],
+                    'city' => $_POST['city'],
+                    'country' => $_POST['country'],
+                    'address' => $_POST['address'],
+                    'postalCode' => $_POST['postalCode'],
+                    'phone' => $_POST['phone'],
+                    'hours' => $_POST['hours'],
+                    'email' => $_POST['email'],
+                    'id' => $id  // Ajout de l'ID du cinéma à mettre à jour
+                ];
+    
+                // Valider les données
+                $errors = $this->validateCinemaData($data);
+    
+                // Si il y a des erreurs, retourner les erreurs en JSON
+                if (!empty($errors)) {
+                    echo json_encode([
+                        'success' => false,
+                        'message' => $errors
+                    ]);
+                    return;
+                }
+    
+                // Si pas d'erreurs, mettre à jour les informations du cinéma dans la base de données
+                // Utilisation d'une requête préparée pour la mise à jour
+                global $pdo;
+    
+                $query = "UPDATE Cinema 
+                          SET cinema_nom = :name, cinema_ville = :city, cinema_pays = :country, 
+                              cinema_adresse = :address, cinema_cp = :postalCode, cinema_numero = :phone, 
+                              cinema_horaires = :hours, cinema_email = :email
+                          WHERE cinema_id = :id";
+    
+                $stmt = $pdo->prepare($query);
+                $stmt->execute([
+                    ':name' => $data['name'],
+                    ':city' => $data['city'],
+                    ':country' => $data['country'],
+                    ':address' => $data['address'],
+                    ':postalCode' => $data['postalCode'],
+                    ':phone' => $data['phone'],
+                    ':hours' => $data['hours'],
+                    ':email' => $data['email'],
+                    ':id' => $data['id']  // ID du cinéma à mettre à jour
+                ]);
+    
+                // Si la mise à jour est réussie, retourner une réponse JSON de succès
+                echo json_encode([
+                    'success' => true,
+                    'message' => 'Cinéma mis à jour avec succès!'
+                ]);
+                return;
+            } else {
+                // Si ce n'est pas un POST, envoyer une réponse JSON pour indiquer que la requête n'est pas valide
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Méthode HTTP non valide.'
+                ]);
+                return;
+            }
+        } catch (Exception $e) {
+            // Si une exception se produit, retourner un message d'erreur en JSON
+            echo json_encode([
+                'success' => false,
+                'message' => 'Une erreur s\'est produite lors de la mise à jour du cinéma. ' . $e->getMessage()
+            ]);
+            // Logguer l'exception pour un débogage plus approfondi
+            error_log('Erreur lors de la mise à jour du cinéma : ' . $e->getMessage());
+            return;
         }
-    }
+    }    
 
     // Supprimer un cinéma
     public function delete($id) {
