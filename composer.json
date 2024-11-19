@@ -12,6 +12,7 @@
         "mongodb/mongodb": "^1.11"
     },
     "require-dev": {
-      "heroku/heroku-buildpack-php": "*"
+      "heroku/heroku-buildpack-php": "*",
+        "phpunit/phpunit": "^10.5"
     }
   }
