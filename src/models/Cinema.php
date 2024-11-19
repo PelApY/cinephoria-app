@@ -50,36 +50,18 @@ class Cinema {
 
     // CRUD Methods
 
+    // Read All Cinemas
     public static function readAll() {
-        global $pdo;
+        global $pdo; // Utiliser la connexion PDO globale
         try {
-            $query = "SELECT * FROM Cinema";
-            $stmt = $pdo->query($query);
-            $cinemas = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-            // Créer un tableau d'objets Cinema
-            $cinemaObjects = [];
-            foreach ($cinemas as $cinema) {
-                // Créer un objet Cinema à partir des résultats
-                $cinemaObjects[] = new Cinema(
-                    $cinema['cinema_id'],
-                    $cinema['cinema_nom'],
-                    $cinema['cinema_ville'],
-                    $cinema['cinema_pays'],
-                    $cinema['cinema_adresse'],
-                    $cinema['cinema_cp'],
-                    $cinema['cinema_numero'],
-                    $cinema['cinema_horaires'],
-                    $cinema['cinema_email']
-                );
-            }
-    
-            return $cinemaObjects;  // Retourne un tableau d'objets Cinema
+            $query = "SELECT * FROM Cinema"; // Requête SQL
+            $stmt = $pdo->query($query); // Exécution de la requête SQL
+            return $stmt->fetchAll(PDO::FETCH_ASSOC); // Récupération de tous les cinémas
         } catch (PDOException $e) {
-            die("Error: " . $e->getMessage());
+            die("Erreur : " . $e->getMessage()); // Gestion d'erreur
         }
-    }    
-    
+    }
+
     // Create Cinema
     public function create() {
         global $pdo;
@@ -112,6 +94,7 @@ class Cinema {
             $stmt->execute([':id' => $id]);
             return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
+            // Gestion d'erreur
             die("Error: " . $e->getMessage());
         }
     }
@@ -136,6 +119,7 @@ class Cinema {
                 ':email' => $this->email
             ]);
         } catch (PDOException $e) {
+            // Gestion d'erreur
             die("Error: " . $e->getMessage());
         }
     }
@@ -148,6 +132,7 @@ class Cinema {
             $stmt = $pdo->prepare($query);
             $stmt->execute([':id' => $id]);
         } catch (PDOException $e) {
+            // Gestion d'erreur
             die("Error: " . $e->getMessage());
         }
     }

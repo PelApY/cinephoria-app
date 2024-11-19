@@ -94,7 +94,7 @@
                         </div>
                         <div class="modal-body">
                             <!-- Formulaire pour ajouter un cinéma -->
-                            <form method="post" action="index.php?controller=cinema&action=create">
+                            <form id="addCinemaForm" method="post">
                                 <div class="row">
                                     <div class="col-md-6 col-12">
                                         <label for="name">Nom</label>
@@ -146,7 +146,6 @@
             </div>
         </div>
 
-        
 
         <!-- Footer -->
         <footer class="text-center text-lg-start bg-body-tertiary text-muted shadow">
@@ -194,5 +193,6 @@
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="/../assets/js/cinema.js"></script>
 </body>
 </html>

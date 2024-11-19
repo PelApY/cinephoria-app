@@ -28,10 +28,9 @@ class CinemaController {
         }
     }
 
+    // Crée un nouveau cinéma
     public function create() {
-        // Vérifier si les données sont envoyées via POST
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Récupérer les données du formulaire
             $data = [
                 'name' => $_POST['name'],
                 'city' => $_POST['city'],
@@ -42,35 +41,69 @@ class CinemaController {
                 'hours' => $_POST['hours'],
                 'email' => $_POST['email'],
             ];
-
-            // Valider les données
+    
+            // Validation des données
             $errors = $this->validateCinemaData($data);
-
-            // Si il y a des erreurs, afficher les erreurs et arrêter l'exécution
+    
             if (!empty($errors)) {
-                // Retourner les erreurs à la vue
+                // Si des erreurs existent, renvoyer une réponse JSON avec l'erreur
                 echo json_encode([
                     'success' => false,
-                    'message' => $errors
+                    'message' => implode(', ', $errors)
                 ]);
                 return;
             }
-
-            // Si pas d'erreurs, créer le cinéma
+    
+            // Créer le cinéma (suivant le modèle)
             $cinema = new Cinema(null, $data['name'], $data['city'], $data['country'], $data['address'], $data['postalCode'], $data['phone'], $data['hours'], $data['email']);
-            $cinema->create();  // Appel à la méthode de création
-
-            // Rediriger vers la liste des cinémas après l'ajout (avec une réponse JSON ici)
+            $cinema->create();
+    
+            // Renvoyer une réponse JSON avec succès
             echo json_encode([
                 'success' => true,
                 'message' => 'Le cinéma a été ajouté avec succès!'
             ]);
             exit();
-        } else {
-            // Si ce n'est pas un POST, afficher le formulaire de création (rarement utilisé avec modal)
-            include __DIR__ . '/../../templates/cinema_create.php';
         }
     }
+    
+    // // Crée un nouveau cinéma
+    // public function create() {
+    //     // Vérifier si les données sont envoyées via POST
+    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    //         // Récupérer les données du formulaire
+    //         $data = [
+    //             'name' => $_POST['name'],
+    //             'city' => $_POST['city'],
+    //             'country' => $_POST['country'],
+    //             'address' => $_POST['address'],
+    //             'postalCode' => $_POST['postalCode'],
+    //             'phone' => $_POST['phone'],
+    //             'hours' => $_POST['hours'],
+    //             'email' => $_POST['email'],
+    //         ];
+
+    //         // Valider les données
+    //         $errors = $this->validateCinemaData($data);
+
+    //         // Si il y a des erreurs, afficher les erreurs et arrêter l'exécution
+    //         if (!empty($errors)) {
+    //             include __DIR__ . '/../../templates/cinema_create.php';  // Renvoyer le formulaire avec les erreurs
+    //             return;
+    //         }
+
+    //         // Si pas d'erreurs, créer le cinéma
+    //         $cinema = new Cinema(null, $data['name'], $data['city'], $data['country'], $data['address'], $data['postalCode'], $data['phone'], $data['hours'], $data['email']);
+    //         $cinema->create();  // Appel à la méthode de création
+
+    //         // Rediriger vers la liste des cinémas après l'ajout
+    //         header('Location: /index.php?controller=cinema&action=indexAdmin');
+    //         exit();
+    //     } else {
+    //         // Si ce n'est pas un POST, afficher le formulaire de création
+    //         include __DIR__ . '/../../templates/cinema_create.php';
+    //     }
+    // }
 
     // Mettre à jour un cinéma
     public function update($id) {
